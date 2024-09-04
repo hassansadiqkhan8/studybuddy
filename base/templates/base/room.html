@@ -1,0 +1,12 @@
+{% extends "main.html" %}
+
+{% block content %}
+
+<h2>
+    {{room.name}}
+    <h4>{{room.description}} </h4>
+</h2>
+<a href="{% url "home" %}"><button>Go Back</button></a>
+
+
+{% endblock %}
