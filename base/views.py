@@ -192,3 +192,17 @@ def updateUser(request):
             messages.error(request, "Wrong username or email try again...")
 
     return render(request, "base/update_user.html", {"form": form})
+
+
+# Topics Page
+def topicsPage(request):
+    q = request.GET.get("q") if request.GET.get("q") != None else ""
+    topics = Topic.objects.filter(name__icontains=q)
+    return render(request, "base/topics.html", {"topics": topics})
+
+
+# Activity Page
+def activityPage(request):
+    # room_messages = Message.objects.filter(Q(room__topic__name__icontains=q))
+    room_messages = Message.objects.all()
+    return render(request, "base/activity.html", {"room_messages": room_messages})
