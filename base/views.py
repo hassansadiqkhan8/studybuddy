@@ -77,6 +77,7 @@ def home(request):
 
 
 # Rooms Page
+@login_required(login_url="login")
 def room(request, pk):
     room = Room.objects.get(id=pk)
     room_messages = room.message_set.all()

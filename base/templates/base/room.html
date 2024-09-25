@@ -87,7 +87,7 @@
                           <div class="avatar avatar--small">
                             <img src="{{message.user.avatar.url}}" />
                           </div>
-                          <span>@{{message.user}} </span>
+                          <span>@{{message.user.username}} </span>
                         </a>
                         <span class="thread__date">{{message.created | timesince}} ago</span>
                       </div>
@@ -113,12 +113,14 @@
               </div>
             </div>
           </div>
+          
           <div class="room__message">
             <form action="" method="POST">
               {% csrf_token %}
               <input type="" name="body" placeholder="Write your message here..." />
             </form>
           </div>
+         
         </div>
         <!-- Room End -->
 
