@@ -96,6 +96,7 @@ def room(request, pk):
 
 
 # User Profile
+@login_required(login_url="login")
 def userProfile(request, pk):
     user = User.objects.get(id=pk)
     rooms = user.room_set.all()
@@ -194,6 +195,7 @@ def updateUser(request):
 
 
 # Topics Page
+@login_required(login_url="login")
 def topicsPage(request):
     q = request.GET.get("q") if request.GET.get("q") != None else ""
     topics = Topic.objects.filter(name__icontains=q)
@@ -201,6 +203,7 @@ def topicsPage(request):
 
 
 # Activity Page
+@login_required(login_url="login")
 def activityPage(request):
     # room_messages = Message.objects.filter(Q(room__topic__name__icontains=q))
     room_messages = Message.objects.all()
