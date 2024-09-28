@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from .models import Room, Topic, Message, User
 from django.contrib import messages
-from .forms import RoomForm, UserForm, MyUserCreationForm
+from .forms import RoomForm, UserForm, MyUserCreationForm, MessageForm
 from django.db.models import Q
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -84,15 +84,18 @@ def room(request, pk):
     participants = room.participants.all()
 
     if request.method == "POST":
-        message = Message.objects.create(
-            user = request.user,
-            room = room,
-            body = request.POST.get("body")
-        )
-        room.participants.add(request.user)
-        return redirect("room", pk=room.id)
+        form = MessageForm(request.POST, request.FILES)
+        if form.is_valid():
+            message = form.save(commit=False)
+            message.user = request.user
+            message.room = room
+            message.save()
+            room.participants.add(request.user)
+            return redirect("room", pk=room.id)
+    else:
+        form = MessageForm()
 
-    return render(request, "base/room.html", {"room": room, "room_messages":room_messages, "participants":participants})
+    return render(request, "base/room.html", {"room": room, "room_messages":room_messages, "participants":participants, "form": form})
 
 
 # User Profile

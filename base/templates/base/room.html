@@ -105,7 +105,17 @@
                       {% endif %}
                     </div>
                     <div class="thread__details">
-                      {{message.body}}
+                      {% if message.body %}
+                        {{message.body}}
+                      {% endif %}
+
+                      {% if message.file %}
+                        <a href="{{ message.file.url }}" target="_blank">Download file</a>
+
+                        {% comment %} <img src="{{ message.file.url }}" alt="Uploaded image" style="max-width: 300px;" /> {% endcomment %}
+
+                      {% endif %}
+
                     </div>
                   </div>
                 {% endfor %}
@@ -115,12 +125,14 @@
           </div>
           
           <div class="room__message">
-            <form action="" method="POST">
+            <form action="" method="POST" enctype="multipart/form-data">
               {% csrf_token %}
+              
               <input type="" name="body" placeholder="Write your message here..." />
+              <input type="file", name="file">
+
             </form>
           </div>
-         
         </div>
         <!-- Room End -->
 
